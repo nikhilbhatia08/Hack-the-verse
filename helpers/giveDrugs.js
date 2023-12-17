@@ -7,7 +7,7 @@ function getDrugs(input_string) {
     console.log(len)
     for(var i = 0; i < len; i++) {
         const array = getDrug.drugs[i].split(" ");
-        console.log(array);
+        //console.log(array);
         const len_array = array.length;
         for(var j = 0; j < len_array; j++) {
             if(array[j] === input_string) {

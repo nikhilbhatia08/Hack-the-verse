@@ -1,7 +1,9 @@
 const express = require('express');
 const body_parser = require('body-parser');
 const getDrugs = require('./helpers/giveDrugs');
-const get_arr = require('./medicines/maneesh')
+const get_arr = require('./medicines/maneesh');
+const getSymp = require('./helpers/check_symptoms');
+const give_drug_from_sym = require('./helpers/give_drug_from_symp');
 
 const app = express();
 app.use(body_parser.json());
@@ -30,6 +32,20 @@ app.get('/getPrice', (req, res) => {
         }
     }
 })
+
+app.get('/getMedFromSymp', async(req, res) => {
+    const getsymp = req.body.symp;
+    // what can be done 
+    // 1. check if the symp is in the list of symps
+    const symp_arr = getSymp(getsymp);
+    const drug_arr = give_drug_from_sym(symp_arr);
+    try{
+        res.status(200).send(drug_arr);
+    }
+    catch(err) {
+        res.status(500).send('Internal Server Error');  
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server running at port ${PORT}`);
